@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Guess & Mini-Games</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: url('https://images.unsplash.com/photo-1577896585428-b8b3c19f8f37') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Montserrat', sans-serif;
+            color: #fff;
+            text-align: center;
+            overflow: hidden;
+        }
+        .start-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            flex-direction: column;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+        }
+        .start-container h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #fff;
+            font-weight: 700;
+        }
+        .start-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            font-size: 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .start-button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        .start-button:focus {
+            outline: none;
+        }
+        .start-button:active {
+            background-color: #004494;
+        }
+        .game-container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            display: none;
+        }
+        .game-container.visible {
+            display: block;
+        }
+        .card {
+            border: none;
+            background-color: #4CAF50;
+            color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .card-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        #user-input {
+            padding: 10px;
+            font-size: 18px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            background-color: #fff;
+        }
+        #submit {
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+        #submit:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            padding: 10px;
+            font-size: 18px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .alert-primary {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+        .mini-games {
+            margin-top: 20px;
+        }
+        .mini-game {
+            background-color: #fff;
+            color: #000;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 10px;
+        }
+        .mini-game button {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Start Button Page -->
+    <div class="start-container">
+        <h1>Welcome to Random Guess & Mini-Games!</h1>
+        <button class="start-button" onclick="startGame()">Start the Game</button>
+    </div>
+
+    <!-- Game Container -->
+    <div class="game-container" id="game-container">
+        <div class="alert alert-primary" role="alert">
+            <h1>Random Guess & Mini-Games</h1>
+        </div>
+
+        <!-- Random Guess Game -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Guess the Number (1-100)</h5>
+                <input type="number" id="user-input" class="form-control">
+                <button class="btn btn-primary mt-2" id="submit" onclick="guess_num()">Submit Guess</button>
+                <div id="result" class="alert"></div>
+            </div>
+        </div>
+
+        <!-- Mini-Games Section -->
+        <div class="mini-games">
+            <!-- Rock-Paper-Scissors -->
+            <div class="mini-game">
+                <h5>Rock-Paper-Scissors</h5>
+                <button class="btn btn-primary" onclick="playRPS('rock')">Rock</button>
+                <button class="btn btn-primary" onclick="playRPS('paper')">Paper</button>
+                <button class="btn btn-primary" onclick="playRPS('scissors')">Scissors</button>
+                <div id="rps-result" class="alert mt-2"></div>
+            </div>
+
+            <!-- Number Trivia -->
+            <div class="mini-game">
+                <h5>Number Trivia</h5>
+                <button class="btn btn-primary" onclick="showTrivia()">Show Trivia</button>
+                <div id="trivia-result" class="alert mt-2"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Background Music -->
+    <audio id="background-music" src="C:\Users\Aditya\Downloads\0521_2-piano-wonder-world-melody-sad-144635.mp3" autoplay loop></audio>
+
+    <script>
+        function startGame() {
+            // Hide the start container and show the game container
+            document.querySelector('.start-container').style.display = 'none';
+            document.getElementById('game-container').classList.add('visible');
+            document.getElementById('background-music').play();
+        }
+
+        // Random number initialization
+        let randomnumber = Math.floor(Math.random() * 101);
+
+        function guess_num() {
+            let result = document.getElementById('result');
+            let submit = document.getElementById('submit');
+            result.textContent = '';
+            submit.disabled = false;
+
+            const guess = Number(document.getElementById('user-input').value);
+            console.log(guess);
+
+            if (guess === randomnumber) {
+                result.textContent = 'Success! You guessed the correct number.';
+                result.className = 'alert alert-success';
+                submit.disabled = true;
+                console.log('Success');
+                // Optionally, reset the game here by generating a new number
+                // randomnumber = Math.floor(Math.random() * 101);
+            } else if (guess < randomnumber) {
+                result.textContent = 'Too small! Try again.';
+                result.className = 'alert alert-danger';
+                console.log('Small');
+            } else {
+                result.textContent = 'Too large! Try again.';
+                result.className = 'alert alert-danger';
+                console.log('Large');
+            }
+        }
+
+        // Rock-Paper-Scissors Game
+        function playRPS(userChoice) {
+            const choices = ['rock', 'paper', 'scissors'];
+            const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+            let result = '';
+
+            if (userChoice === computerChoice) {
+                result = `It's a draw! Both chose ${userChoice}.`;
+            } else if (
+                (userChoice === 'rock' && computerChoice === 'scissors') ||
+                (userChoice === 'paper' && computerChoice === 'rock') ||
+                (userChoice === 'scissors' && computerChoice === 'paper')
+            ) {
+                result = `You win! ${userChoice} beats ${computerChoice}.`;
+            } else {
+                result = `You lose! ${computerChoice} beats ${userChoice}.`;
+            }
+
+            document.getElementById('rps-result').textContent = result;
+        }
+
+        // Number Trivia
+        function showTrivia() {
+            const trivia = [
+                "Did you know? The number 7 is considered lucky in many cultures.",
+                "In Roman numerals, 50 is represented as L.",
+                "Zero (0) is the only number that cannot be represented by Roman numerals.",
+                "The number 13 is often associated with bad luck."
+            ];
+            const randomTrivia = trivia[Math.floor(Math.random() * trivia.length)];
+            document.getElementById('trivia-result').textContent = randomTrivia;
+        }
+    </script>
+</body>
+</html>
